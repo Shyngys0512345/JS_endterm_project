@@ -1,0 +1,39 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+header {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #222;
+  color: white;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.movie-card {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 4px;
+}
