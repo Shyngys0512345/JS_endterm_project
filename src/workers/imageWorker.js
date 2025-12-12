@@ -1,13 +1,11 @@
 /* eslint-disable no-restricted-globals, no-undef */
 
-// Веб-воркер для ресайза изображений перед загрузкой
 self.onmessage = async (e) => {
-  const file = e.data; // файл, присланный из main thread
+  const file = e.data; 
 
   try {
     const bitmap = await createImageBitmap(file);
 
-    // Максимальный размер картинки
     const maxDim = 800;
     let width = bitmap.width;
     let height = bitmap.height;
@@ -30,9 +28,9 @@ self.onmessage = async (e) => {
 
     const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.75 });
 
-    self.postMessage(blob); // возвращаем готовый файл обратно
+    self.postMessage(blob); 
   } catch (err) {
     console.error("Image processing failed in worker", err);
-    self.postMessage(file); // fallback: возвращаем оригинальный файл
+    self.postMessage(file); 
   }
 };

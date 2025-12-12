@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchMoviesList } from "../services/apiService";
 
-// Async thunk для получения списка фильмов
+// Async thunk for getting the list of films
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async ({ query = "", page = 1 }, thunkAPI) => {

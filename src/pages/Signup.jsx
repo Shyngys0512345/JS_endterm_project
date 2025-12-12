@@ -22,7 +22,7 @@ export default function Signup() {
 
     try {
       await signup(email, password);
-      nav("/profile"); // редирект на профиль после успешной регистрации
+      nav("/profile"); // after successful authorization
     } catch (err) {
       setError(err.message);
     }

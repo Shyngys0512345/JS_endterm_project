@@ -11,7 +11,7 @@ export const signup = async (email, password) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
 
-  // Создаём документ в Firestore
+  // creating a document in Firestore
   await setDoc(doc(db, "users", user.uid), {
     email: user.email,
     favorites: [],
@@ -19,10 +19,10 @@ export const signup = async (email, password) => {
     createdAt: new Date(),
   });
 
-  // Добавляем displayName (например первая часть email)
+  // adding displayName 
   await updateProfile(user, { displayName: email.split("@")[0] });
 
-  return userCredential; // возвращаем весь объект, чтобы был доступ к userCredential.user
+  return userCredential; //returning all an object to get acces to userCredential.user
 };
 
 export const login = async (email, password) => {

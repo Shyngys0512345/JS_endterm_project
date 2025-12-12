@@ -5,7 +5,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { setUser, clearUser } from "./store/authSlice";
 
-// Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -15,10 +14,8 @@ import MovieDetails from "./pages/MovieDetails";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 
-// Components
 import Header from "./components/Header";
 
-// Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
@@ -32,7 +29,7 @@ function App() {
       } else {
         dispatch(clearUser());
       }
-      setAuthLoaded(true); // отметка что auth проверен
+      setAuthLoaded(true); 
     });
 
     return () => unsubscribe();

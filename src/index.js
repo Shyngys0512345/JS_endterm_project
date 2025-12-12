@@ -14,5 +14,5 @@ root.render(
   </Provider>
 );
 
-// register SW (works in production build; in dev may show different behavior)
+// register SW (works in production build, in dev may show different behavior)
 serviceWorkerRegistration.register();

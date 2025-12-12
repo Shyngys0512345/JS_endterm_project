@@ -3,27 +3,27 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { compressFileWithWorker } from "../utils/compressImage";
 
-/**
- * Uploads user avatar to Firebase Storage (compress via worker) and returns the URL
- */
+
+// uploads user avatar to Firebase Storage then and returns the URL
+
 export const uploadAvatar = async (uid, file) => {
   try {
     const toUpload = await compressFileWithWorker(file); // Blob or File
 
-    // определяем расширение/тип
+    // determining the type
     const ext = (toUpload.type && toUpload.type.split("/")[1]) || "jpg";
     const filename = `avatar_${Date.now()}.${ext}`;
-    const path = `avatars/${uid}/${filename}`; // уникальный путь + папка по uid
+    const path = `avatars/${uid}/${filename}`; // unique path + folder with uid
 
     const storageRef = ref(storage, path);
 
-    // metadata чтобы storage знал contentType
+    // metadata for storage to know contentType
     const metadata = { contentType: toUpload.type || "image/jpeg" };
 
-    // загружаем
+    // uploading
     await uploadBytes(storageRef, toUpload, metadata);
 
-    // получаем url
+    // getting url
     const url = await getDownloadURL(storageRef);
     return url;
   } catch (err) {

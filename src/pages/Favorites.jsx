@@ -18,7 +18,7 @@ export default function Favorites() {
         setServerFavorites(data);
       } catch (err) {
         console.warn("Cannot fetch server favorites, using local cache", err);
-        setServerFavorites([]); // оставляем пустой массив если оффлайн
+        setServerFavorites([]); //to leave an empty array if offline
       }
     };
 
@@ -27,7 +27,7 @@ export default function Favorites() {
 
   if (!user) return <p>Please login to see your favorites.</p>;
 
-  // Объединяем локальные и серверные favorites по уникальному id
+  // combining local and server favorites by a unique id
   const combinedFavorites = [
     ...new Map([...favorites, ...serverFavorites].map((f) => [f.id, f])).values(),
   ];

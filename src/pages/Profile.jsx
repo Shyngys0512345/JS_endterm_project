@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { auth } from "../firebase"; // Импортируем auth
+import { auth } from "../firebase";
 import { setUser } from "../store/authSlice";
 import { uploadAvatar, saveProfileData, getProfileData } from "../services/profileService";
 
@@ -16,13 +16,12 @@ export default function Profile() {
     useEffect(() => {
         if (!user) return;
         
-        // 1. Попытка загрузить из основного источника (photoURL из Firebase Auth)
+        // photoURL from Firebase Auth
         if (user.photoURL) {
             setPreview(user.photoURL);
         }
 
-        // 2. Если photoURL нет, проверяем Firestore
-        // (Это полезно, если вы ранее сохранили только в Firestore)
+        // if there is no photoURL, check the Firestore
         if (user.uid) {
             getProfileData(user.uid).then(data => {
                 if (data.avatar && !user.photoURL) {
@@ -38,7 +37,6 @@ export default function Profile() {
         const file = e.target.files[0];
         if (!file) return;
         setAvatar(file);
-        // Создаем локальный URL для предпросмотра
         setPreview(URL.createObjectURL(file)); 
     };
 
@@ -47,26 +45,24 @@ export default function Profile() {
 
         setIsLoading(true);
         try {
-            // 1. Загрузка в Firebase Storage (с компрессией)
+            // uploading to Firebase Storage
             const url = await uploadAvatar(user.uid, avatar);
 
-            // 2. Сохранение URL в Firestore (как дополнительная запись)
+            //  saving the URL in the Firestore
             await saveProfileData(user.uid, { avatar: url });
 
-            // 3. ОБНОВЛЕНИЕ В FIREBASE AUTH (Ключ к сохранению после перезагрузки)
-            // Это обновит `user.photoURL` для `onAuthStateChanged` в `App.js`.
+            // updating to FIREBASE AUTH
             await auth.currentUser.updateProfile({ photoURL: url });
 
-            // 4. МГНОВЕННОЕ ОБНОВЛЕНИЕ REDUX (Ключ к сохранению при переходе)
-            // Берем обновленного пользователя из auth.currentUser
+            // instant update REDUX 
             const updatedUser = auth.currentUser;
             dispatch(setUser({ 
                 uid: updatedUser.uid,
                 email: updatedUser.email,
-                photoURL: updatedUser.photoURL, // Используем свежий URL
+                photoURL: updatedUser.photoURL, 
             }));
 
-            // 5. Очищаем локальный файл и показываем превью из URL
+            // to clear the local file and show the preview from the URL
             setAvatar(null);
             setPreview(url); 
 
@@ -100,7 +96,6 @@ export default function Profile() {
                     {isLoading ? "Uploading..." : "Upload"}
                 </button>
             </div>
-            {/* Дополнительная информация о пользователе, если нужна */}
             <p>Email: {user.email}</p>
         </div>
     );

@@ -19,9 +19,9 @@ export default function Login() {
 
     try {
       await login(email, password);
-      navigate("/movies"); // редирект после успешного входа
+      navigate("/movies"); // redirect after successful login
     } catch (err) {
-      // дружелюбные ошибки Firebase
+      // errors Firebase
       switch (err.code) {
         case "auth/user-not-found":
           setError("User does not exist.");

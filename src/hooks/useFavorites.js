@@ -18,7 +18,7 @@ export default function useFavorites() {
     }
   });
 
-  // 🔥 Синхронизируем локальные и серверные favorites
+  // syncing local and server favorites
   useEffect(() => {
     if (!user) return;
 
@@ -26,7 +26,7 @@ export default function useFavorites() {
       try {
         const serverData = await getServerFavorites(user.uid);
 
-        // объединяем уникальные
+        // combining unique ones
         const map = new Map();
         [...favorites, ...serverData].forEach((f) => map.set(f.id, f));
         const merged = Array.from(map.values());
@@ -42,7 +42,7 @@ export default function useFavorites() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // 🔥 Функциональный toggleFavorite — 100% FIX
+  // functional toggleFavorite
   const toggleFavorite = async (movie) => {
     setFavorites((prev) => {
       const exists = prev.some((f) => f.id === movie.id);
@@ -58,7 +58,7 @@ export default function useFavorites() {
       return updated;
     });
 
-    // ⚡ Обновляем сервер отдельно (асинхронно, не ломая локальный state)
+    // to update the server asynchronously without breaking the local state
     if (user) {
       try {
         const existsNow = favorites.some((f) => f.id === movie.id);
